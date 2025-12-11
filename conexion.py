@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 # ================================
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://postgres:1234@localhost/prueba"
+    "postgresql://crud_db_e25g_user:B59N3tXf76ErC4JJSQwHzLEjhxBgTwJN@dpg-d4sr89i4d50c73d3ud6g-a.oregon-postgres.render.com/crud_db_e25g"
 )
 
 # ================================
