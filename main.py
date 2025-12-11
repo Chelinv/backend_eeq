@@ -14,16 +14,18 @@ def startup_event():
     Base.metadata.create_all(bind=engine)
 
 # ---- CORS ----
-cors_env = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
+
+cors_env = os.getenv("CORS_ORIGINS", "https://frontend-eeq-6.onrender.com,http://localhost:5173")
 origins = [o.strip() for o in cors_env.split(",") if o.strip()]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # ---- CREATE ----
 @app.post("/clientes/", response_model=schemas.ClienteResponse, status_code=status.HTTP_201_CREATED)
