@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 import models
 import schemas
 from conexion import engine, get_db, Base
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="API PostgreSQL - Clientes")
 
@@ -63,3 +64,10 @@ def delete_cliente(cliente_id: int, db: Session = Depends(get_db)):
     db.delete(cliente)
     db.commit()
     return {"ok": True}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://frontend-eeq-8.onrender.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
