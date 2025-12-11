@@ -18,7 +18,7 @@ class ClienteUpdate(BaseModel):
 
 # Esquema para la respuesta de la API (incluye el ID)
 class ClienteResponse(ClienteBase):
-    id: str
+    id: int
 
     class Config:
         # Esto permite que Pydantic lea los datos del objeto ORM

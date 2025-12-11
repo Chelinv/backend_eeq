@@ -1,10 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-import os
 import models
 import schemas
 from conexion import engine, get_db, Base
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="API PostgreSQL - Clientes")
 
@@ -12,19 +10,6 @@ app = FastAPI(title="API PostgreSQL - Clientes")
 @app.on_event("startup")
 def startup_event():
     Base.metadata.create_all(bind=engine)
-
-# ---- CORS ----
-
-cors_env = os.getenv("CORS_ORIGINS", "https://frontend-eeq-6.onrender.com,http://localhost:5173")
-origins = [o.strip() for o in cors_env.split(",") if o.strip()]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"], 
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 # ---- CREATE ----
