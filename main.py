@@ -4,6 +4,7 @@ import models
 import schemas
 from conexion import engine, get_db, Base
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import RedirectResponse
 
 app = FastAPI(title="API PostgreSQL - Clientes")
 
@@ -12,6 +13,13 @@ app = FastAPI(title="API PostgreSQL - Clientes")
 def startup_event():
     Base.metadata.create_all(bind=engine)
 
+# REDIRECCIÓN AUTOMÁTICA DEL ROOT → /clientes
+@app.get("/", include_in_schema=False)
+def root_redirect():
+    return RedirectResponse(
+        url="/clientes/",
+        status_code=status.HTTP_308_PERMANENT_REDIRECT
+    )
 
 # ---- CREATE ----
 @app.post("/clientes/", response_model=schemas.ClienteResponse, status_code=status.HTTP_201_CREATED)
@@ -64,6 +72,9 @@ def delete_cliente(cliente_id: int, db: Session = Depends(get_db)):
     db.delete(cliente)
     db.commit()
     return {"ok": True}
+@app.get("/", include_in_schema=False)
+def root_redirect():
+    return RedirectResponse(url="/clientes/", status_code=status.HTTP_308_PERMANENT_REDIRECT)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://frontend-eeq-8.onrender.com"],
